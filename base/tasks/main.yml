@@ -1,0 +1,27 @@
+---
+# tasks file for base
+
+- name: Start
+  apt:
+    update_cache: yes
+    upgrade: dist
+      
+- name: Install basic utilities
+  apt:
+    name:
+      - curl
+      - wget
+      - git
+      - ufw
+    state: present
+
+- name: Enable UFW
+  ufw:
+      state: enabled
+      rule: allow
+      port: 22
+
+- name: Install Fail2ban
+  apt:
+    name: fail2ban
+    state: present

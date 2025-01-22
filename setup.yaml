@@ -1,0 +1,26 @@
+---
+
+- name: Start
+  gather_facts: false
+  hosts: gcp
+  become: yes
+  pre_tasks:
+    - name: Remove apt lock file
+      file:
+        state: absent
+        path: "/var/lib/dpkg/lock-frontend"
+      become: true
+      tags: apt
+
+    - name: Ensure dpkg is in a consistent state
+      command: "dpkg --configure -a"
+      become: true
+      tags: apt
+        
+  roles:
+    - base
+    - nginx
+    - app
+    - ssh 
+     
+
